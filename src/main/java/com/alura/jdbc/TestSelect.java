@@ -1,6 +1,6 @@
 package com.alura.jdbc;
 
-import com.alura.jdbc.db.Database;
+import com.alura.jdbc.db.ConnectionPool;
 
 import java.sql.*;
 
@@ -11,22 +11,27 @@ public class TestSelect {
 
     public static void main(String[] args) throws SQLException {
 
-        Connection connection = Database.getConnection();
+        ConnectionPool connectionPool = new ConnectionPool();
 
-        Statement statement = connection.createStatement();
-        boolean result = statement.execute("Select * from produto");
-        System.out.println("Statement.execute = " + result + "\n");
+        for (int i = 1; i <= 100; i++) {
 
-        ResultSet resultSet = statement.getResultSet();
-        while (resultSet.next()) {
-            System.out.print(resultSet.getInt("id") + " - ");
-            System.out.print(resultSet.getString("nome") + " - ");
-            System.out.println(resultSet.getString("descricao"));
+            Connection connection = connectionPool.getConnection();
+
+            Statement statement = connection.createStatement();
+            boolean result = statement.execute("Select * from produto");
+            System.out.println("Statement.execute = " + result + "\n");
+
+            ResultSet resultSet = statement.getResultSet();
+            while (resultSet.next()) {
+                System.out.print(resultSet.getInt("id") + " - ");
+                System.out.print(resultSet.getString("nome") + " - ");
+                System.out.println(resultSet.getString("descricao"));
+            }
+
+            resultSet.close();
+            statement.close();
+            connection.close();
         }
-
-        resultSet.close();
-        statement.close();
-        connection.close();
 
     }
 

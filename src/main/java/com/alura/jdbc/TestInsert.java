@@ -1,6 +1,6 @@
 package com.alura.jdbc;
 
-import com.alura.jdbc.db.Database;
+import com.alura.jdbc.db.ConnectionPool;
 
 import java.sql.*;
 
@@ -11,7 +11,7 @@ public class TestInsert {
 
     public static void main(String[] args) throws SQLException {
 
-        try (Connection connection = Database.getConnection()) {
+        try (Connection connection = new ConnectionPool().getConnection()) {
             connection.setAutoCommit(false);
 
         /*String name = "Notebook's i7";

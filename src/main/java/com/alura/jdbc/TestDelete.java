@@ -1,6 +1,6 @@
 package com.alura.jdbc;
 
-import com.alura.jdbc.db.Database;
+import com.alura.jdbc.db.ConnectionPool;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -13,7 +13,7 @@ public class TestDelete {
 
     public static void main(String[] args) throws SQLException {
 
-        Connection connection = Database.getConnection();
+        Connection connection = new ConnectionPool().getConnection();
 
         Statement statement = connection.createStatement();
 
